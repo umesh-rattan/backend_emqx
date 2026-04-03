@@ -488,8 +488,40 @@ async function saveTelemetryBulk(dataArray) {
     }
 }
 
+async function getBulkData({ imei, startDate, endDate, page = 1, limit = 50 }) {
+    let query = 'SELECT * FROM poc_new_bike_telemetry WHERE 1=1';
+    const params = [];
+
+    if (imei) {
+        query += ' AND imei = ?';
+        params.push(imei);
+    }
+    if (startDate) {
+        query += ' AND timestamp >= ?';
+        params.push(startDate);
+    }
+    if (endDate) {
+        query += ' AND timestamp <= ?';
+        params.push(endDate);
+    }
+
+    query += ' ORDER BY timestamp DESC LIMIT ? OFFSET ?';
+    const offset = (page - 1) * limit;
+    params.push(Number(limit), Number(offset));
+
+    try {
+        const [rows] = await pool.query(query, params);
+        return rows;
+    } catch (error) {
+        console.error('Error fetching bulk telemetry data:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     saveTelemetryBulk,
     saveTelemetry,
-    isDuplicate
+    isDuplicate,
+    getBulkData
 };
+
