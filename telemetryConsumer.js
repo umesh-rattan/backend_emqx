@@ -6,8 +6,8 @@ client.on('message', async (topic, payload) => {
 
   try {
     const messages = JSON.parse(payload.toString());
-    console.log("messages", messages);
-    // console.log(`Received ${messages.length} messages`);
+    // console.log("messages", messages);
+    console.log(`Received ${messages.length} messages`);
 
     for (const msg of messages) {
       if (!msg.imei) {
