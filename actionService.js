@@ -7,7 +7,8 @@ function sendAction(imei, name, payload) {
   const actionId = randomUUID();
 
   const topic = `/tenants/${config.tenant}/devices/${imei}/actions`;
-  const messagePayload = JSON.stringify({ id: actionId, name, payload });
+  const formattedPayload = typeof payload === 'object' ? JSON.stringify(payload) : payload;
+  const messagePayload = JSON.stringify({ id: actionId, name, payload: formattedPayload });
 
   client.publish(
     topic,
