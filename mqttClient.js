@@ -18,7 +18,8 @@ client.on('connect', () => {
 
   client.subscribe([
     `/tenants/${config.tenant}/devices/+/events/all_data/jsonarray`,
-    `/tenants/${config.tenant}/devices/+/action/status`
+    `/tenants/${config.tenant}/devices/+/action/status`,
+    `/tenants/${config.tenant}/devices/+/events/can_raw/jsonarray`
   ], { qos: 0 });
 });
 
