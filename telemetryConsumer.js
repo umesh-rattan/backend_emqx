@@ -14,11 +14,11 @@ client.on('message', async (topic, payload) => {
   try {
     const messages = JSON.parse(payload.toString());
     // console.log("messages", messages);
-    console.log(`Received ${messages.length} messages on ${topic}`);
+    //console.log(`Received ${messages.length} messages on ${topic}`);
 
     for (const msg of messages) {
       if (!msg.imei) {
-        console.warn('Skipping message without IMEI');
+        // console.warn('Skipping message without IMEI');
         continue;
       }
 
