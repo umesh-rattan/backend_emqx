@@ -3,7 +3,7 @@ const { producer } = require('./ServiceKafkaClient');
 // Buffers to store messages per topic before sending them as a batch
 const topicBuffers = {};
 // Define the batch size and flush interval
-const BATCH_SIZE = 5;         // Max number of messages per batch
+const BATCH_SIZE = 100;         // Max number of messages per batch
 const FLUSH_INTERVAL = 5000;    // Time interval to flush the batch (in ms)
 
 let counter = 0;
