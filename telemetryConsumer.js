@@ -28,21 +28,28 @@ client.on('message', async (topic, payload) => {
     // console.log("messages", messages);
     //console.log(`Received ${messages.length} messages on ${topic}`);
 
-    for (const msg of messages) {
-      if (isCanRaw) {
-        if (extractedImei) {
-          msg.imei = extractedImei;
-        }
-        msg.biketimestamp = Date.now();
-      }
+    if (isCanRaw) {
+      const batchedMsg = {
+        imei: extractedImei,
+        biketimestamp: Date.now(),
+        can_data: messages
+      };
 
-      if (!msg.imei) {
+      if (!batchedMsg.imei) {
         console.warn('Skipping message without IMEI');
-        continue;
+      } else {
+        await produceMessage(batchedMsg, kafkaTopic);
       }
+    } else {
+      for (const msg of messages) {
+        if (!msg.imei) {
+          console.warn('Skipping message without IMEI');
+          continue;
+        }
 
-      // Push to Kafka batch producer
-      await produceMessage(msg, kafkaTopic);
+        // Push to Kafka batch producer
+        await produceMessage(msg, kafkaTopic);
+      }
     }
   } catch (err) {
     console.error('Error processing MQTT message:', err);
