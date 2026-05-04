@@ -29,8 +29,11 @@ client.on('message', async (topic, payload) => {
     //console.log(`Received ${messages.length} messages on ${topic}`);
 
     for (const msg of messages) {
-      if (isCanRaw && extractedImei) {
-        msg.imei = extractedImei;
+      if (isCanRaw) {
+        if (extractedImei) {
+          msg.imei = extractedImei;
+        }
+        msg.biketimestamp = Date.now();
       }
 
       if (!msg.imei) {
