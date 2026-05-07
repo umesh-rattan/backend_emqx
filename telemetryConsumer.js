@@ -18,7 +18,7 @@ client.on('message', async (topic, payload) => {
 
     let extractedImei = null;
     if (isCanRaw) {
-      console.log(`Full topic name: ${topic}`);
+      // console.log(`Full topic name: ${topic}`);
       const match = topic.match(/\/devices\/([^/]+)/);
       if (match) {
         extractedImei = match[1];
